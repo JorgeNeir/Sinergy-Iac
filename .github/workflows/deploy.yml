@@ -21,6 +21,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       RDS_MASTER_PASSWORD: ${{ secrets.RDS_MASTER_PASSWORD }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      SUPERUSER_PASSWORD: ${{ secrets.SUPERUSER_PASSWORD }}
 
     steps:
       - name: Checkout Code
@@ -42,8 +44,9 @@ jobs:
         run: |
           terraform plan \
             -var-file="prod.tfvars" \
-            -var="database_url=$DATABASE_URL" \
             -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
             -out=tfplan
 
       - name: Upload Plan
@@ -63,6 +66,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       RDS_MASTER_PASSWORD: ${{ secrets.RDS_MASTER_PASSWORD }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      SUPERUSER_PASSWORD: ${{ secrets.SUPERUSER_PASSWORD }}
 
     steps:
       - name: Checkout Code
@@ -78,13 +83,26 @@ jobs:
 
       - name: Import existing resources
         run: |
-          terraform import module.ecr.aws_ecr_repository.app_repo sinergy-inventario 2>/dev/null || true
-          terraform import module.iam.aws_iam_role.apprunner_role sinergy-inventario-apprunner-role 2>/dev/null || true
-          terraform import module.iam.aws_iam_role.operations_role sinergy-inventario-operations-role 2>/dev/null || true
+          terraform import -var-file="prod.tfvars" \
+            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
+            module.ecr.aws_ecr_repository.app_repo sinergy-inventario 2>/dev/null || true
+          terraform import -var-file="prod.tfvars" \
+            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
+            module.iam.aws_iam_role.apprunner_role sinergy-inventario-apprunner-role 2>/dev/null || true
+          terraform import -var-file="prod.tfvars" \
+            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
+            module.iam.aws_iam_role.operations_role sinergy-inventario-operations-role 2>/dev/null || true
 
       - name: Terraform Apply
         run: |
           terraform apply -auto-approve \
             -var-file="prod.tfvars" \
-            -var="database_url=$DATABASE_URL" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD"
+            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD"
