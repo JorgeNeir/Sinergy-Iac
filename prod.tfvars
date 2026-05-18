@@ -6,8 +6,8 @@ aws_region  = "us-east-1"
 environment = "prod"
 app_name    = "sinergy-inventario"
 
-# Base de datos (RDS PostgreSQL) - Se pasa via secrets en el pipeline
-database_url = ""
+# RDS PostgreSQL
+rds_instance_class = "db.t3.micro"
 
 # NextAuth - COMPLETAR
 nextauth_url    = "https://sinergy-inventory.xxxx.apprunner.aws.com"

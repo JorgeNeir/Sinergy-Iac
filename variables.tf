@@ -20,6 +20,31 @@ variable "database_url" {
   description = "PostgreSQL database connection URL"
   type        = string
   sensitive   = true
+  default     = ""
+}
+
+variable "rds_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
+variable "rds_master_password" {
+  description = "RDS master password"
+  type        = string
+  sensitive   = true
+}
+
+variable "vpc_id" {
+  description = "VPC ID for RDS"
+  type        = string
+  default     = ""
+}
+
+variable "subnet_ids" {
+  description = "Subnet IDs for RDS"
+  type        = list(string)
+  default     = []
 }
 
 variable "nextauth_url" {
