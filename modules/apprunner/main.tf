@@ -2,6 +2,10 @@ resource "aws_apprunner_service" "app_service" {
   service_name = var.app_name
 
   source_configuration {
+    authentication_configuration {
+      access_role_arn = var.apprunner_role_arn
+    }
+
     image_repository {
       image_identifier      = "${var.ecr_repository_url}:latest"
       image_repository_type = "ECR"
