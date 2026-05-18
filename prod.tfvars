@@ -9,6 +9,10 @@ app_name    = "sinergy-inventario"
 # RDS PostgreSQL
 rds_instance_class = "db.t3.micro"
 
+# App Runner - Imagen pública temporal
+use_public_image = true
+public_image    = "nginx:latest"
+
 # NextAuth - COMPLETAR
 nextauth_url    = "https://sinergy-inventory.xxxx.apprunner.aws.com"
 nextauth_secret = "CHANGE_TO_A_GENERATED_SECRET_KEY"

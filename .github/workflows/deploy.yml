@@ -45,14 +45,9 @@ jobs:
             -var="database_url=$DATABASE_URL" \
             -var="rds_master_password=$RDS_MASTER_PASSWORD" \
             -out=tfplan
-        continue-on-error: true
 
-      - name: Display Plan Output
-        run: |
-          echo "Plan output:"
-          cat tfplan
-
-      - name: Upload Plan Artifact
+      - name: Upload Plan
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tfplan

@@ -11,6 +11,19 @@ variable "environment" {
 variable "ecr_repository_url" {
   description = "ECR Repository URL"
   type        = string
+  default     = ""
+}
+
+variable "use_public_image" {
+  description = "Use public image instead of ECR"
+  type        = bool
+  default     = false
+}
+
+variable "public_image" {
+  description = "Public Docker image (e.g., nginx:latest)"
+  type        = string
+  default     = ""
 }
 
 variable "apprunner_role_arn" {
