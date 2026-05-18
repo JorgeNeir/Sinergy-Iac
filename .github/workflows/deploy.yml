@@ -68,6 +68,9 @@ jobs:
         with:
           terraform_version: 1.7.0
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Download Plan Artifact
         uses: actions/download-artifact@v4
         with:
