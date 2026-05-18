@@ -56,8 +56,8 @@ module "rds" {
 module "apprunner" {
   source = "./modules/apprunner"
 
-  app_name            = var.app_name
-  environment         = var.environment
+  app_name           = var.app_name
+  environment        = var.environment
   ecr_repository_url = module.ecr.repository_url
   apprunner_role_arn = module.iam.apprunner_role_arn
   use_public_image   = var.use_public_image

@@ -21,7 +21,7 @@ resource "aws_db_instance" "postgres" {
 
   db_subnet_group_name = aws_db_subnet_group.main.name
 
-  skip_final_snapshot       = true
+  skip_final_snapshot      = true
   delete_automated_backups = true
 
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
