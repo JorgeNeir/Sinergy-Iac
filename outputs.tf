@@ -1,3 +1,4 @@
+# Outputs de la infraestructura
 output "app_runner_service_url" {
   description = "App Runner Service URL (Public)"
   value       = module.apprunner.service_url
