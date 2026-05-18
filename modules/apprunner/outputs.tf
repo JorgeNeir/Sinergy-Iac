@@ -7,3 +7,4 @@ output "service_arn" {
   description = "App Runner Service ARN"
   value       = aws_apprunner_service.app_service.arn
 }
+#
