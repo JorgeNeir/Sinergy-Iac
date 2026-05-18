@@ -22,7 +22,7 @@ resource "aws_apprunner_service" "app_service" {
       }
     }
 
-    auto_deployments_enabled = true
+    auto_deployments_enabled = false
   }
 
   instance_configuration {
