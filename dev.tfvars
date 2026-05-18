@@ -2,9 +2,9 @@
 # Variables para Desarrollo
 # ============================================
 
-aws_region    = "us-east-1"
-environment   = "dev"
-app_name       = "sinergy-inventario-dev"
+aws_region  = "us-east-1"
+environment = "dev"
+app_name    = "sinergy-inventario-dev"
 
 # Base de datos (RDS PostgreSQL)
 database_url = "postgresql://postgres:DevPassword123@dev-db.xxxx.us-east-1.rds.amazonaws.com:5432/sinergy_inventory"

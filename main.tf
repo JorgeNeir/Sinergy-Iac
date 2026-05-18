@@ -11,8 +11,8 @@ provider "aws" {
 module "ecr" {
   source = "./modules/ecr"
 
-  app_name     = var.app_name
-  environment  = var.environment
+  app_name    = var.app_name
+  environment = var.environment
 }
 
 # ============================================
@@ -31,10 +31,10 @@ module "iam" {
 module "apprunner" {
   source = "./modules/apprunner"
 
-  app_name            = var.app_name
-  environment         = var.environment
+  app_name           = var.app_name
+  environment        = var.environment
   ecr_repository_url = module.ecr.repository_url
-  apprunner_role_arn  = module.iam.apprunner_role_arn
+  apprunner_role_arn = module.iam.apprunner_role_arn
 
   database_url       = var.database_url
   nextauth_url       = var.nextauth_url

@@ -33,8 +33,8 @@ resource "aws_iam_policy" "ecr_policy" {
         Resource = var.ecr_repository_arn
       },
       {
-        Effect = "Allow"
-        Action = "ecr:GetAuthorizationToken"
+        Effect   = "Allow"
+        Action   = "ecr:GetAuthorizationToken"
         Resource = "*"
       }
     ]
@@ -65,7 +65,7 @@ resource "aws_iam_role" "operations_role" {
 }
 
 resource "aws_iam_policy_attachment" "operations_attachment" {
-  name = "${var.app_name}-operations-attachment"
-  roles = [aws_iam_role.operations_role.name]
+  name       = "${var.app_name}-operations-attachment"
+  roles      = [aws_iam_role.operations_role.name]
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
 }

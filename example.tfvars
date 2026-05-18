@@ -4,9 +4,9 @@
 # cp example.tfvars dev.tfvars
 # ============================================
 
-aws_region    = "us-east-1"          # región de AWS
-environment   = "dev"                 # dev, staging, prod
-app_name       = "sinergy-inventario" # nombre de la app
+aws_region  = "us-east-1"          # región de AWS
+environment = "dev"                # dev, staging, prod
+app_name    = "sinergy-inventario" # nombre de la app
 
 # ============================================
 # DATABASE - PostgreSQL (AWS RDS)

@@ -2,9 +2,9 @@
 # Variables para Staging
 # ============================================
 
-aws_region    = "us-east-1"
-environment   = "staging"
-app_name       = "sinergy-inventario-staging"
+aws_region  = "us-east-1"
+environment = "staging"
+app_name    = "sinergy-inventario-staging"
 
 # Base de datos (RDS PostgreSQL)
 database_url = "postgresql://postgres:StagingPassword123@staging-db.xxxx.us-east-1.rds.amazonaws.com:5432/sinergy_inventory"
