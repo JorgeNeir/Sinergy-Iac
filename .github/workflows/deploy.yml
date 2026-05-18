@@ -71,11 +71,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Download Plan Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: tfplan
-          path: .
+      - name: Import existing resources
+        run: |
+          terraform import module.ecr.aws_ecr_repository.app_repo sinergy-inventario 2>/dev/null || true
+          terraform import module.iam.aws_iam_role.apprunner_role sinergy-inventario-apprunner-role 2>/dev/null || true
+          terraform import module.iam.aws_iam_role.operations_role sinergy-inventario-operations-role 2>/dev/null || true
 
       - name: Terraform Apply
-        run: terraform apply tfplan
+        run: terraform apply -auto-approve -var-file="prod.tfvars"
