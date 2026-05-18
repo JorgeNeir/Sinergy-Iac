@@ -13,7 +13,7 @@ variable "environment" {
 variable "app_name" {
   description = "Application name"
   type        = string
-  default     = "sinergy-inventario"
+  default     = "sinergy-inventario-dev"
 }
 
 variable "database_url" {
