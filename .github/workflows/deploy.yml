@@ -33,6 +33,11 @@ jobs:
         with:
           terraform_version: 1.7.0
 
+      - name: Create S3 Backend Bucket
+        run: |
+          aws s3api create-bucket --bucket sinergy-iac-terraform-state --region us-east-1 2>/dev/null || true
+          aws s3api put-bucket-versioning --bucket sinergy-iac-terraform-state --versioning-configuration Status=Enabled
+
       - name: Terraform Init
         run: terraform init
 
@@ -77,6 +82,11 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.7.0
+
+      - name: Create S3 Backend Bucket
+        run: |
+          aws s3api create-bucket --bucket sinergy-iac-terraform-state --region us-east-1 2>/dev/null || true
+          aws s3api put-bucket-versioning --bucket sinergy-iac-terraform-state --versioning-configuration Status=Enabled
 
       - name: Terraform Init
         run: terraform init
