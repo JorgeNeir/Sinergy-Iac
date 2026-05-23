@@ -17,7 +17,6 @@ resource "aws_db_instance" "postgres" {
   backup_window           = "03:00-04:00"
   maintenance_window      = "mon:04:00-mon:05:00"
 
-  publicly_accessible   = true
   vpc_security_group_ids = [aws_security_group.rds.id]
 
   db_subnet_group_name = aws_db_subnet_group.main.name
