@@ -7,7 +7,7 @@ resource "aws_apprunner_service" "app_service" {
       image_repository_type = var.use_public_image ? "ECR_PUBLIC" : "ECR"
 
       image_configuration {
-        port = "3000"
+        port = var.use_public_image ? "80" : "3000"
         runtime_environment_variables = {
           DATABASE_URL       = var.database_url
           NEXTAUTH_URL       = var.nextauth_url
