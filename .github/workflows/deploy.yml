@@ -33,11 +33,6 @@ jobs:
         with:
           terraform_version: 1.7.0
 
-      - name: Create S3 Backend Bucket
-        run: |
-          aws s3api create-bucket --bucket sinergy-iac-terraform-state --region us-east-1 2>/dev/null || true
-          aws s3api put-bucket-versioning --bucket sinergy-iac-terraform-state --versioning-configuration Status=Enabled
-
       - name: Terraform Init
         run: terraform init
 
@@ -83,41 +78,8 @@ jobs:
         with:
           terraform_version: 1.7.0
 
-      - name: Create S3 Backend Bucket
-        run: |
-          aws s3api create-bucket --bucket sinergy-iac-terraform-state --region us-east-1 2>/dev/null || true
-          aws s3api put-bucket-versioning --bucket sinergy-iac-terraform-state --versioning-configuration Status=Enabled
-
       - name: Terraform Init
         run: terraform init
-
-      - name: Import existing resources
-        run: |
-          terraform import -var-file="prod.tfvars" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
-            -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD" \
-            module.ecr.aws_ecr_repository.app_repo sinergy-inventario 2>/dev/null || true
-          terraform import -var-file="prod.tfvars" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
-            -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD" \
-            module.iam.aws_iam_role.apprunner_role sinergy-inventario-apprunner-role 2>/dev/null || true
-          terraform import -var-file="prod.tfvars" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
-            -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD" \
-            module.iam.aws_iam_role.operations_role sinergy-inventario-operations-role 2>/dev/null || true
-          terraform import -var-file="prod.tfvars" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
-            -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD" \
-            module.iam.aws_iam_policy.ecr_policy arn:aws:iam::742873383629:policy/sinergy-inventario-ecr-policy 2>/dev/null || true
-          terraform import -var-file="prod.tfvars" \
-            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
-            -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD" \
-            module.rds.aws_db_subnet_group.main sinergy-inventario-subnet-group 2>/dev/null || true
 
       - name: Terraform Apply
         run: |
