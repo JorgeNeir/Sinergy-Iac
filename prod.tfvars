@@ -11,7 +11,7 @@ rds_instance_class = "db.t3.micro"
 
 # App Runner - Imagen pública temporal
 use_public_image = true
-public_image     = "nginx:latest"
+public_image     = "public.ecr.aws/nginx/nginx:latest"
 
 # NextAuth - COMPLETAR
 nextauth_url    = "https://sinergy-inventory.xxxx.apprunner.aws.com"
