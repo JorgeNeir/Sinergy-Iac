@@ -64,6 +64,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: us-east-1
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       RDS_MASTER_PASSWORD: ${{ secrets.RDS_MASTER_PASSWORD }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
@@ -83,8 +84,24 @@ jobs:
 
       - name: Terraform Apply
         run: |
+          APP_NAME=$(grep 'app_name' prod.tfvars | head -1 | awk -F '"' '{print $2}')
+          SERVICE_STATUS=$(aws apprunner list-services \
+            --query "ServiceSummaryList[?ServiceName=='${APP_NAME}'].Status" \
+            --output text 2>/dev/null || echo "")
+
+          EXTRA_ARGS=()
+          if [ "$SERVICE_STATUS" = "CREATE_FAILED" ]; then
+            echo "⚠️  App Runner '$APP_NAME' en CREATE_FAILED — forzando recreación"
+            EXTRA_ARGS+=("-replace=module.apprunner.aws_apprunner_service.app_service")
+          fi
+
           terraform apply -auto-approve \
             -var-file="prod.tfvars" \
             -var="rds_master_password=$RDS_MASTER_PASSWORD" \
             -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD"
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
+            "${EXTRA_ARGS[@]}"
+
+      - name: Show App Runner URL
+        run: |
+          terraform output app_runner_service_url 2>/dev/null || true

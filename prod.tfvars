@@ -12,8 +12,8 @@ rds_instance_class = "db.t3.micro"
 # App Runner - Imagen desde ECR
 use_public_image = false
 
-# NextAuth - COMPLETAR
-nextauth_url    = "https://sinergy-inventory.xxxx.apprunner.aws.com"
+# NextAuth - URL se actualiza tras el primer deploy exitoso (ver output app_runner_service_url)
+nextauth_url    = "https://placeholder.us-east-1.awsapprunner.com"
 nextauth_secret = "CHANGE_TO_A_GENERATED_SECRET_KEY"
 
 # Superusuario local - COMPLETAR
