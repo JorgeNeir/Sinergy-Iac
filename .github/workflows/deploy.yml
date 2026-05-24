@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   terraform-plan:
@@ -102,6 +102,35 @@ jobs:
             -var="superuser_password=$SUPERUSER_PASSWORD" \
             "${EXTRA_ARGS[@]}"
 
-      - name: Show App Runner URL
+      - name: Auto-actualizar nextauth_url si cambió
         run: |
-          terraform output app_runner_service_url 2>/dev/null || true
+          NEW_URL=$(terraform output -raw app_runner_service_url 2>/dev/null || echo "")
+          if [ -z "$NEW_URL" ]; then
+            echo "No se pudo obtener la URL del servicio."
+            exit 0
+          fi
+
+          FULL_URL="https://$NEW_URL"
+          CURRENT_URL=$(grep 'nextauth_url' prod.tfvars | awk -F '"' '{print $2}')
+          echo "URL actual:  $CURRENT_URL"
+          echo "URL nueva:   $FULL_URL"
+
+          if [ "$FULL_URL" = "$CURRENT_URL" ]; then
+            echo "✅ URL sin cambios — no se requiere actualización."
+            exit 0
+          fi
+
+          echo "🔄 URL cambió — actualizando prod.tfvars y re-aplicando..."
+          sed -i "s|nextauth_url.*=.*|nextauth_url    = \"$FULL_URL\"|" prod.tfvars
+
+          terraform apply -auto-approve \
+            -var-file="prod.tfvars" \
+            -var="rds_master_password=$RDS_MASTER_PASSWORD" \
+            -var="nextauth_secret=$NEXTAUTH_SECRET" \
+            -var="superuser_password=$SUPERUSER_PASSWORD"
+
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add prod.tfvars
+          git commit -m "chore: auto-update nextauth_url → $FULL_URL [skip ci]"
+          git push
