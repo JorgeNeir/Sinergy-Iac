@@ -134,3 +134,13 @@ jobs:
           git add prod.tfvars
           git commit -m "chore: auto-update nextauth_url → $FULL_URL [skip ci]"
           git push
+
+      - name: URL de la aplicación
+        run: |
+          URL=$(terraform output -raw app_runner_service_url 2>/dev/null || echo "")
+          if [ -n "$URL" ]; then
+            echo "========================================"
+            echo "  🌐  https://$URL"
+            echo "========================================"
+            echo "url=https://$URL" >> $GITHUB_OUTPUT
+          fi
