@@ -14,13 +14,6 @@ resource "aws_security_group" "apprunner_vpc" {
   description = "Security group for App Runner VPC connector"
   vpc_id      = var.vpc_id
 
-  egress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = {
     Environment = var.environment
     Name        = "${var.app_name}-apprunner-vpc-sg"
