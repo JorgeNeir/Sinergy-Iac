@@ -28,7 +28,8 @@ resource "aws_iam_policy" "ecr_policy" {
         Action = [
           "ecr:GetDownloadUrlForLayer",
           "ecr:BatchGetImage",
-          "ecr:BatchCheckLayerAvailability"
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:DescribeImages"
         ]
         Resource = var.ecr_repository_arn
       },
