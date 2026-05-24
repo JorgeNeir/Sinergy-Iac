@@ -68,4 +68,7 @@ module "apprunner" {
   nextauth_secret    = var.nextauth_secret
   superuser_email    = var.superuser_email
   superuser_password = var.superuser_password
+
+  vpc_id     = module.network.vpc_id
+  subnet_ids = module.network.subnet_ids
 }

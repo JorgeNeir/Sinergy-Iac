@@ -1,3 +1,32 @@
+resource "aws_apprunner_vpc_connector" "main" {
+  vpc_connector_name = "${var.app_name}-vpc-connector"
+  subnets            = var.subnet_ids
+  security_groups    = [aws_security_group.apprunner_vpc.id]
+
+  tags = {
+    Environment = var.environment
+    Name        = "${var.app_name}-vpc-connector"
+  }
+}
+
+resource "aws_security_group" "apprunner_vpc" {
+  name        = "${var.app_name}-apprunner-vpc-sg"
+  description = "Security group for App Runner VPC connector"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Environment = var.environment
+    Name        = "${var.app_name}-apprunner-vpc-sg"
+  }
+}
+
 resource "aws_apprunner_service" "app_service" {
   service_name = var.app_name
 
@@ -26,6 +55,13 @@ resource "aws_apprunner_service" "app_service" {
     }
 
     auto_deployments_enabled = false
+  }
+
+  network_configuration {
+    egress_configuration {
+      egress_type       = "VPC"
+      vpc_connector_arn = aws_apprunner_vpc_connector.main.arn
+    }
   }
 
   instance_configuration {

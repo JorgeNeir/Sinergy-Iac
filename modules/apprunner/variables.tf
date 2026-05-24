@@ -58,3 +58,13 @@ variable "superuser_password" {
   type        = string
   sensitive   = true
 }
+
+variable "vpc_id" {
+  description = "VPC ID for App Runner VPC connector"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "Private subnet IDs for App Runner VPC connector"
+  type        = list(string)
+}
