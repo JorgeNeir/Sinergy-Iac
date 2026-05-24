@@ -31,6 +31,7 @@ resource "aws_apprunner_service" "app_service" {
       image_configuration {
         port = var.use_public_image ? "80" : "3000"
         runtime_environment_variables = {
+          HOSTNAME           = "0.0.0.0"
           DATABASE_URL       = var.database_url
           NEXTAUTH_URL       = var.nextauth_url
           NEXTAUTH_SECRET    = var.nextauth_secret
