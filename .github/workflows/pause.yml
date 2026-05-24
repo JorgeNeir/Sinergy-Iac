@@ -35,6 +35,23 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Esperar estado estable del servicio
+        run: |
+          APP_NAME=$(grep 'app_name' prod.tfvars | head -1 | awk -F '"' '{print $2}')
+          echo "Verificando estado de App Runner '$APP_NAME'..."
+          for i in $(seq 1 20); do
+            STATUS=$(aws apprunner list-services \
+              --query "ServiceSummaryList[?ServiceName=='${APP_NAME}'].Status" \
+              --output text 2>/dev/null || echo "NOT_FOUND")
+            echo "Estado actual: $STATUS"
+            if [ "$STATUS" != "OPERATION_IN_PROGRESS" ]; then
+              echo "✅ Servicio estable — procediendo con destroy."
+              break
+            fi
+            echo "⏳ Operación en curso ($i/20)... esperando 30s"
+            sleep 30
+          done
+
       - name: Destruir App Runner y RDS
         run: |
           terraform destroy -auto-approve \
