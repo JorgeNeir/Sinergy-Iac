@@ -44,6 +44,7 @@ resource "aws_apprunner_service" "app_service" {
           NEXTAUTH_SECRET    = var.nextauth_secret
           SUPERUSER_EMAIL    = var.superuser_email
           SUPERUSER_PASSWORD = var.superuser_password
+          STAFF_PASSWORD     = var.staff_password
         }
       }
     }

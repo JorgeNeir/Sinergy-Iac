@@ -59,6 +59,12 @@ variable "superuser_password" {
   sensitive   = true
 }
 
+variable "staff_password" {
+  description = "Default staff user password"
+  type        = string
+  sensitive   = true
+}
+
 variable "vpc_id" {
   description = "VPC ID for App Runner VPC connector"
   type        = string

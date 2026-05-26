@@ -80,3 +80,9 @@ variable "superuser_password" {
   type        = string
   sensitive   = true
 }
+
+variable "staff_password" {
+  description = "Default staff user password"
+  type        = string
+  sensitive   = true
+}
