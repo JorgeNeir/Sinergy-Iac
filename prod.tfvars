@@ -13,7 +13,7 @@ rds_instance_class = "db.t3.micro"
 use_public_image = false
 
 # NextAuth - URL se actualiza tras el primer deploy exitoso (ver output app_runner_service_url)
-nextauth_url    = "https://km5a24ures.us-east-1.awsapprunner.com"
+nextauth_url    = "https://7krxdnxn7d.us-east-1.awsapprunner.com"
 nextauth_secret = "CHANGE_TO_A_GENERATED_SECRET_KEY"
 
 # Superusuario local - COMPLETAR
