@@ -16,6 +16,7 @@ jobs:
       RDS_MASTER_PASSWORD: ${{ secrets.RDS_MASTER_PASSWORD }}
       NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
       SUPERUSER_PASSWORD: ${{ secrets.SUPERUSER_PASSWORD }}
+      STAFF_PASSWORD: ${{ secrets.STAFF_PASSWORD }}
 
     steps:
       - name: Checkout Code
@@ -35,4 +36,5 @@ jobs:
             -var-file="prod.tfvars" \
             -var="rds_master_password=$RDS_MASTER_PASSWORD" \
             -var="nextauth_secret=$NEXTAUTH_SECRET" \
-            -var="superuser_password=$SUPERUSER_PASSWORD"
+            -var="superuser_password=$SUPERUSER_PASSWORD" \
+            -var="staff_password=$STAFF_PASSWORD"
