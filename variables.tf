@@ -86,3 +86,15 @@ variable "staff_password" {
   type        = string
   sensitive   = true
 }
+
+variable "budget_limit_usd" {
+  description = "Monthly AWS budget limit in USD before alerting"
+  type        = string
+  default     = "30"
+}
+
+variable "alert_email" {
+  description = "Email address to receive budget alerts"
+  type        = string
+  default     = "jorge.neira88@gmail.com"
+}

@@ -19,3 +19,7 @@ nextauth_secret = "CHANGE_TO_A_GENERATED_SECRET_KEY"
 # Superusuario local - COMPLETAR
 superuser_email    = "admin@sinergy.com"
 superuser_password = "CHANGE_TO_A_SECURE_PASSWORD"
+
+# Presupuesto y alertas de costo
+budget_limit_usd = "30"
+alert_email      = "jorge.neira88@gmail.com"
